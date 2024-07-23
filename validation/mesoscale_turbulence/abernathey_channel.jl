@@ -21,9 +21,9 @@ const Ly = 2000kilometers # meridional domain length [m]
 architecture = CPU()
 
 # number of grid points
-Nx = 96
-Ny = 192
-Nz = 32
+Nx = 8
+Ny = 16
+Nz = 2
 
 # stretched grid 
 k_center = collect(1:Nz)
@@ -56,14 +56,14 @@ cᵖ = 3994.0   # [J/K]  heat capacity
 parameters = (
     Ly = Ly,
     Lz = Lz,
-    Qᵇ = 10 / (ρ * cᵖ) * α * g,            # buoyancy flux magnitude [m² s⁻³]    
-    y_shutoff = 5 / 6 * Ly,                # shutoff location for buoyancy flux [m]
-    τ = 0.2 / ρ,                           # surface kinematic wind stress [m² s⁻²]
+    Qᵇ = 10 / (ρ * cᵖ) * α * g,          # buoyancy flux magnitude [m² s⁻³]    
+    y_shutoff = 5 / 6 * Ly,              # shutoff location for buoyancy flux [m]
+    τ = 0.2 / ρ,                         # surface kinematic wind stress [m² s⁻²]
     μ = 1 / 30days,                      # bottom drag damping time-scale [s⁻¹]
     ΔB = 8 * α * g,                      # surface vertical buoyancy gradient [s⁻²]
     H = Lz,                              # domain depth [m]
     h = 1000.0,                          # exponential decay scale of stable stratification [m]
-    y_sponge = 19 / 20 * Ly,               # southern boundary of sponge layer [m]
+    y_sponge = 19 / 20 * Ly,             # southern boundary of sponge layer [m]
     λt = 7.0days                         # relaxation time scale [s]
 )
 
@@ -173,7 +173,7 @@ stop_time = 60days
 
 simulation = Simulation(model, Δt = Δt₀, stop_time = stop_time)
 
-# add timestep wizard callback
+# add timestep wizard callback for variable timestep
 # wizard = TimeStepWizard(cfl=0.1, max_change=1.1, max_Δt=20minutes)
 # simulation.callbacks[:wizard] = Callback(wizard, IterationInterval(20))
 
